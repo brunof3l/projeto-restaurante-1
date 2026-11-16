@@ -1,0 +1,51 @@
+.racha { max-width: 480px; margin: 0 auto; padding: 16px 18px 190px; }
+.racha-topo { display: flex; align-items: center; gap: 12px; min-height: var(--altura-topo); padding: 0 18px; background: var(--verde-garrafa); color: var(--branco); }
+.racha-topo small { display: block; opacity: 0.8; }
+.racha-card { background: var(--branco); border: 1px solid var(--linha); border-radius: var(--raio-g); padding: 16px; margin-bottom: 14px; }
+.barra { height: 10px; border-radius: 6px; background: var(--linha); overflow: hidden; margin-bottom: 8px; }
+.barra b { display: block; height: 100%; background: var(--folha); transition: width 0.4s; }
+.racha-resumo { display: flex; justify-content: space-between; font-size: 14px; color: var(--cinza); }
+.racha-resumo strong { color: var(--tinta); font-family: var(--fonte-comanda); font-weight: 500; }
+.racha-abas { display: flex; gap: 4px; padding: 4px; margin-bottom: 14px; border-radius: var(--raio-m); background: var(--linha); }
+.racha-abas button { flex: 1; min-height: 40px; border: 0; border-radius: var(--raio-p); background: none; color: var(--cinza); font-weight: 700; }
+.racha-abas button.ativa { background: var(--branco); color: var(--tinta); }
+.item-racha { padding: 14px; margin-bottom: 10px; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--branco); }
+.item-racha.escolhido { border-color: var(--verde-garrafa); box-shadow: 0 0 0 2px var(--verde-garrafa); }
+.item-racha.paga { opacity: 0.55; }
+.item-linha { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.item-linha b { font-family: var(--fonte-comanda); font-weight: 500; }
+.item-nota { margin: 8px 0 0; font-size: 13px; color: var(--cinza); }
+.item-nota.ok { color: var(--folha-texto); font-weight: 700; }
+.opcoes-divisao { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.opcoes-divisao button { min-height: 36px; padding: 0 12px; border: 1px solid var(--linha); border-radius: 20px; background: none; font-size: 14px; }
+.opcoes-divisao button.ativa { background: var(--verde-garrafa); border-color: var(--verde-garrafa); color: var(--branco); font-weight: 700; }
+.gorjeta { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 12px; font-size: 14px; }
+.gorjeta input { width: 20px; height: 20px; accent-color: var(--verde-garrafa); }
+.racha-rodape { position: fixed; left: 0; right: 0; bottom: 0; max-width: 480px; margin: 0 auto; padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--branco); border-top: 1px solid var(--linha); }
+.racha-rodape .botao { width: 100%; }
+.racha-rodape .botao + .botao { margin-top: 8px; }
+.centro { text-align: center; padding: 24px 8px; }
+.valor-grande { font-family: var(--fonte-comanda); font-size: 38px; font-weight: 500; }
+.formas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.formas button { min-height: 48px; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--branco); font-weight: 700; }
+.formas button.ativa { border-color: var(--verde-garrafa); box-shadow: 0 0 0 2px var(--verde-garrafa); }
+.qr { width: 190px; height: 190px; margin: 12px auto; padding: 10px; border-radius: var(--raio-m); background: var(--branco); border: 1px solid var(--linha); }
+.carteira { padding: 18px; border-radius: var(--raio-g); background: #111; color: var(--branco); text-align: left; }
+.carteira small { opacity: 0.7; }
+.carteira strong { display: block; margin: 6px 0; font-size: 18px; }
+.marca-ok { display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 50%; background: var(--folha-fundo); color: var(--folha-texto); font-size: 38px; }
+.google { padding: 20px 4px 0; font-family: Roboto, Arial, sans-serif; }
+.google-logo { margin-bottom: 14px; font: 700 30px Arial, sans-serif; letter-spacing: -1px; }
+.google-aviso { margin-bottom: 14px; padding: 10px 12px; border-radius: var(--raio-m); background: var(--folha-fundo); color: var(--folha-texto); font-size: 14px; font-weight: 700; }
+.google-card { padding: 16px; border: 1px solid #dadce0; border-radius: 12px; background: var(--branco); }
+.google-local { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+.google-local img { width: 44px; height: 44px; border-radius: 8px; }
+.google small, .google-nota { color: #5f6368; font-size: 13px; }
+.google-usuario { display: flex; gap: 10px; align-items: center; }
+.google-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #1a73e8; color: var(--branco); font-weight: 700; }
+.estrelas { display: flex; gap: 4px; margin: 12px 0; }
+.estrelas button { padding: 0 2px; border: 0; background: none; color: #dadce0; font-size: 44px; line-height: 1; }
+.estrelas button.ativa { color: #fbbc04; }
+.google textarea { width: 100%; min-height: 110px; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; font: 15px Roboto, Arial, sans-serif; resize: vertical; }
+.botao-google { min-height: 46px; border: 0; border-radius: 23px; background: #1a73e8; color: var(--branco); font: 500 16px Roboto, Arial, sans-serif; }
+.botao-google:disabled { background: #dadce0; color: #80868b; cursor: not-allowed; }

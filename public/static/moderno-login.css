@@ -1,0 +1,196 @@
+/* ==========================================================
+   Restaurante BKV - camada visual moderna da página de acesso
+   Carrega depois do login.css e só acrescenta/sobrepõe estilos.
+   Para voltar ao visual anterior, remova a linha deste arquivo no login.html.
+
+   Ideia: o azulejo da marca ganha vida. Os losangos acendem em
+   dourado perto do cursor (efeitos-login.js) e o formulário vira
+   uma ficha limpa sobre um fundo claro com o mesmo padrão.
+   ========================================================== */
+
+:root {
+    --ouro: #c9a24a;
+    --ouro-claro: #e8cd85;
+    --verde-fundo: #0c2a23;
+    --sombra-verde: 20, 56, 47;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        conic-gradient(from 45deg at 50% 50%, rgba(36, 89, 75, 0.05) 0 25%, transparent 0 50%, rgba(36, 89, 75, 0.05) 0 75%, transparent 0) 0 0 / 64px 64px,
+        linear-gradient(160deg, #f1f5f1 0%, #e1ebe4 100%);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Painel de marca ---------- */
+.marca {
+    background:
+        radial-gradient(600px 420px at 50% 34%, rgba(201, 162, 74, 0.20), transparent 70%),
+        linear-gradient(170deg, #17423a 0%, var(--verde-garrafa) 45%, var(--verde-fundo) 100%);
+}
+
+/* Camada acesa: os mesmos losangos, em dourado, visíveis só perto do cursor */
+.azulejo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        conic-gradient(from 45deg at 50% 50%, var(--ouro-claro) 0 25%, transparent 0 50%, var(--ouro-claro) 0 75%, transparent 0) 0 0 / 64px 64px;
+    -webkit-mask-image: radial-gradient(circle 190px at var(--mx, 50%) var(--my, 40%), rgba(0, 0, 0, 0.95), transparent 100%);
+    mask-image: radial-gradient(circle 190px at var(--mx, 50%) var(--my, 40%), rgba(0, 0, 0, 0.95), transparent 100%);
+}
+
+.marca-assinatura {
+    filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 40px rgba(201, 162, 74, 0.22));
+}
+
+.selo-img {
+    box-shadow: 0 0 0 2px rgba(232, 205, 133, 0.55), 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.marca h1 {
+    font-size: clamp(34px, 3.6vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.marca p { color: #cfdcd6; }
+
+/* ---------- Ficha do formulário ---------- */
+.acesso {
+    max-width: 480px;
+    padding: 40px 24px;
+}
+
+.acesso > section {
+    padding: 40px 38px 34px;
+    border: 1px solid rgba(var(--sombra-verde), 0.09);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 30px 60px -34px rgba(var(--sombra-verde), 0.55);
+}
+
+/* Trocar de tela (entrar, recuperar, SMS) responde ao clique */
+.acesso > section:not([hidden]) { animation: troca-passo 0.28s ease-out; }
+@keyframes troca-passo {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
+
+h2 { font-weight: 700; letter-spacing: -0.025em; }
+
+input {
+    border-color: #b4c0b8;
+    border-radius: 12px;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+input:hover { border-color: #8da096; }
+input:focus-visible {
+    outline: none;
+    border-color: var(--folha);
+    box-shadow: 0 0 0 4px rgba(42, 127, 82, 0.18);
+}
+
+.botao {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #d9432f 0%, #b8321f 100%);
+    box-shadow: 0 10px 20px -10px rgba(201, 58, 40, 0.85);
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+.botao:hover:not(:disabled) {
+    background: linear-gradient(180deg, #d9432f 0%, #b8321f 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px -10px rgba(201, 58, 40, 0.9);
+    filter: brightness(1.04);
+}
+.botao:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 4px 10px -6px rgba(201, 58, 40, 0.9); }
+.botao::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.28) 50%, transparent 65%);
+    transform: translateX(-120%);
+}
+.botao:hover:not(:disabled)::after { transform: translateX(120%); transition: transform 0.6s ease; }
+
+.link { transition: color 0.15s; }
+.link:hover { color: var(--tomate); }
+
+/* ---------- Alternativa por SMS ---------- */
+.ou {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0 16px;
+    color: var(--cinza);
+    font-size: 14px;
+}
+.ou::before,
+.ou::after { content: ""; flex: 1; height: 1px; background: #cbd5ce; }
+
+.botao-sms {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 50px;
+    padding: 0 16px;
+    border: 1.5px solid var(--folha);
+    border-radius: 12px;
+    background: rgba(42, 127, 82, 0.07);
+    color: #1b5c39;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, transform 0.15s, box-shadow 0.18s;
+}
+.botao-sms:hover {
+    background: var(--folha);
+    color: var(--branco);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px -12px rgba(42, 127, 82, 0.9);
+}
+.botao-sms:active { transform: translateY(1px); }
+.icone-sms { flex: none; width: 22px; height: 22px; }
+
+/* ---------- Mensagens e regras ---------- */
+#mensagem:not(:empty) {
+    border-left: 4px solid var(--folha);
+    border-radius: 12px;
+    animation: troca-passo 0.22s ease-out;
+}
+#mensagem.erro:not(:empty) { border-left-color: var(--tomate); }
+
+.codigo {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.45em;
+    text-indent: 0.45em;
+}
+
+.regras li { transition: color 0.2s; }
+.regras li::before { transition: background 0.2s, border-color 0.2s; }
+.regras li.ok::before { animation: marcar 0.25s ease-out; }
+@keyframes marcar {
+    from { transform: scale(0.5); }
+    60% { transform: scale(1.25); }
+    to { transform: scale(1); }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 800px) {
+    .marca { background: linear-gradient(170deg, #17423a, var(--verde-garrafa)); }
+    .acesso { padding: 24px 16px 40px; max-width: 520px; }
+    .acesso > section { padding: 28px 22px 24px; border-radius: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}

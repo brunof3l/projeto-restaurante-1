@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso - Restaurante BKV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/moderno-login.css?v=2">
+</head>
+<body>
+    <div class="pagina">
+
+        <!-- Painel de marca: padrão de azulejo feito só com CSS -->
+        <aside class="marca" aria-hidden="false">
+            <div class="azulejo" aria-hidden="true"></div>
+            <img class="marca-assinatura" src="{{ url_for('static', filename='img/bkv-dourado.png') }}" alt="BKV">
+            <div class="marca-texto">
+                <div class="marca-titulo">
+                    <img class="selo-img" src="{{ url_for('static', filename='img/logo-bkv.png') }}" alt="Logo do Restaurante BKV">
+                    <h1>Restaurante BKV</h1>
+                </div>
+                <p>Mesas, pedidos, caixa e estoque em um só lugar.</p>
+            </div>
+        </aside>
+
+        <main class="acesso">
+            <p id="mensagem" role="status" aria-live="polite"></p>
+
+            <!-- Passo 1: entrar -->
+            <section id="acesso" aria-labelledby="titulo-acesso">
+                <h2 id="titulo-acesso" tabindex="-1">Entrar no sistema</h2>
+                <p class="apoio">Use o e-mail cadastrado pelo gerente.</p>
+                <form id="form-login">
+                    <label for="email-login">E-mail</label>
+                    <input id="email-login" type="email" maxlength="254" autocomplete="username" required>
+
+                    <label for="senha-login">Senha</label>
+                    <div class="campo-senha">
+                        <input id="senha-login" type="password" maxlength="128" autocomplete="current-password" required>
+                        <button type="button" class="ver-senha" data-alvo="senha-login" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+                    </div>
+
+                    <button class="botao">Entrar</button>
+                </form>
+                <button type="button" class="link" data-ir="recuperacao">Esqueci minha senha</button>
+            </section>
+
+            <!-- Passo 2: pedir o link de recuperação por e-mail (o Firebase envia e hospeda a página da nova senha) -->
+            <section id="recuperacao" hidden aria-labelledby="titulo-recuperacao">
+                <h2 id="titulo-recuperacao" tabindex="-1">Recuperar senha</h2>
+                <p class="apoio">Enviaremos para o seu e-mail um link para criar uma nova senha.</p>
+                <form id="form-recuperacao">
+                    <label for="email-recuperacao">E-mail cadastrado</label>
+                    <input id="email-recuperacao" type="email" maxlength="254" autocomplete="email" required>
+                    <button class="botao" id="botao-enviar-link">Enviar link</button>
+                </form>
+                <p class="apoio">Abra o e-mail, clique no link, escolha a nova senha e depois volte aqui para entrar. Confira também a caixa de spam.</p>
+                <div class="ou" id="ou-sms" aria-hidden="true" hidden><span>ou</span></div>
+                <button type="button" class="botao-sms" id="botao-sms" data-ir="sms" hidden>
+                    <svg class="icone-sms" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-7l-4.5 3.5V17H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="8" cy="11" r="1.2" fill="currentColor"/><circle cx="12" cy="11" r="1.2" fill="currentColor"/><circle cx="16" cy="11" r="1.2" fill="currentColor"/></svg>
+                    Receber código por SMS
+                </button>
+                <button type="button" class="link" data-ir="acesso">Voltar ao login</button>
+            </section>
+
+            <!-- Recuperação por SMS, passo 1: pedir o código -->
+            <section id="sms" hidden aria-labelledby="titulo-sms">
+                <h2 id="titulo-sms" tabindex="-1">Recuperar por SMS</h2>
+                <p class="apoio">Enviaremos um código de 4 números para o celular registrado na sua conta.</p>
+                <form id="form-sms">
+                    <label for="email-sms">E-mail cadastrado</label>
+                    <input id="email-sms" type="email" maxlength="254" autocomplete="email" required>
+                    <button class="botao" id="botao-enviar-sms">Enviar código</button>
+                </form>
+                <button type="button" class="link" data-ir="sms-codigo">Já recebi o código</button>
+                <button type="button" class="link" data-ir="recuperacao">Receber por e-mail</button>
+                <button type="button" class="link" data-ir="acesso">Voltar ao login</button>
+            </section>
+
+            <!-- Recuperação por SMS, passo 2: código e nova senha -->
+            <section id="sms-codigo" hidden aria-labelledby="titulo-sms-codigo">
+                <h2 id="titulo-sms-codigo" tabindex="-1">Definir nova senha</h2>
+                <p class="apoio">O código vale por 10 minutos e só pode ser usado uma vez.</p>
+                <form id="form-sms-codigo">
+                    <label for="email-sms-codigo">E-mail cadastrado</label>
+                    <input id="email-sms-codigo" type="email" maxlength="254" autocomplete="email" required>
+
+                    <label for="codigo-sms">Código recebido por SMS</label>
+                    <input id="codigo-sms" class="codigo" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="one-time-code" placeholder="0000" required>
+
+                    <label for="nova-senha-sms">Nova senha</label>
+                    <div class="campo-senha">
+                        <input id="nova-senha-sms" type="password" minlength="8" maxlength="128" autocomplete="new-password" aria-describedby="regras-senha-sms" required>
+                        <button type="button" class="ver-senha" data-alvo="nova-senha-sms" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+                    </div>
+
+                    <label for="confirmacao-sms">Confirme a nova senha</label>
+                    <input id="confirmacao-sms" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+
+                    <ul id="regras-senha-sms" class="regras">
+                        <li data-regra="tamanho">8 ou mais caracteres</li>
+                        <li data-regra="letra">Pelo menos uma letra</li>
+                        <li data-regra="numero">Pelo menos um número</li>
+                        <li data-regra="igual">As duas senhas iguais</li>
+                    </ul>
+
+                    <button class="botao">Alterar senha</button>
+                </form>
+                <button type="button" class="link" data-ir="sms">Pedir outro código</button>
+                <button type="button" class="link" data-ir="acesso">Voltar ao login</button>
+            </section>
+        </main>
+    </div>
+    <script src="/static/login.js"></script>
+    <script src="/static/sms.js"></script>
+    <script src="/static/efeitos-login.js"></script>
+</body>
+</html>

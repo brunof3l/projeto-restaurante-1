@@ -1,0 +1,7 @@
+test_app.py
+__pycache__/
+*.pyc
+*.pdf
+.env
+firebase-credenciais*.json
+*-firebase-adminsdk-*.json

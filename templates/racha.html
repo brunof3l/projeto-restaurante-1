@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racha-conta - Restaurante BKV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='racha.css') }}">
+</head>
+<body data-mesa="{{ mesa }}" data-codigo="{{ codigo }}">
+
+    <header class="racha-topo">
+        <img class="selo-img" src="{{ url_for('static', filename='img/logo-bkv.png') }}" alt="Logo do Restaurante BKV">
+        <div>
+            <strong>Restaurante BKV</strong>
+            <small>Mesa {{ mesa }} · Racha-conta</small>
+        </div>
+    </header>
+
+    <div class="racha" id="tela"></div>
+    <footer class="racha-rodape" id="rodape" hidden></footer>
+
+    <div id="mensagem" class="aviso" role="status" aria-live="polite" hidden></div>
+
+    <script src="{{ url_for('static', filename='comum.js') }}"></script>
+    <script src="{{ url_for('static', filename='racha.js') }}"></script>
+</body>
+</html>

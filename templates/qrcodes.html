@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta name="token" content="{{ token }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Codes - Restaurante BKV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='moderno.css', v=2) }}">
+</head>
+<body data-email="{{ session['email'] }}" data-nome="{{ session['nome'] }}" data-perfil="{{ session['perfil'] }}">
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-sair" viewBox="0 0 24 24"><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <header class="topo">
+        <div class="marca">
+            <img class="selo-img" src="{{ url_for('static', filename='img/logo-bkv.png') }}" alt="Logo do Restaurante BKV">
+            <div>
+                <strong>Restaurante BKV</strong>
+                <small id="data-atual"></small>
+            </div>
+        </div>
+
+        <div class="topo-direita">
+            <a class="botao botao-secundario link-voltar" href="/" id="link-inicio" hidden>Voltar ao sistema</a>
+            <div class="usuario">
+                <span class="avatar" id="avatar" aria-hidden="true"></span>
+                <span class="usuario-nome" id="nome-usuario"></span>
+            </div>
+            <button type="button" class="botao-icone" id="botao-sair" aria-label="Sair do sistema" title="Sair">
+                <svg class="icone" aria-hidden="true"><use href="#i-sair"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="principal">
+        <div class="aviso-conexao" id="aviso-conexao" hidden>Sem conexão com o servidor. Tentando de novo em instantes.</div>
+
+        <h1 class="titulo-tela">QR Codes das mesas</h1>
+        <p class="apoio-qr">Imprima e cole cada QR Code na mesa certa. O cliente escaneia e paga a própria parte. Cada código só abre a conta da sua mesa.</p>
+        <button type="button" class="botao botao-principal" id="botao-imprimir">Imprimir</button>
+
+        <div class="grade-qr">
+            {% for mesa in mesas %}
+            <article class="cartao-qr">
+                <h2>Mesa {{ mesa.numero }}</h2>
+                <div class="imagem-qr">{{ mesa.imagem|safe }}</div>
+                <p>Escaneie para ver a conta e pagar</p>
+                <small>{{ mesa.endereco }}</small>
+            </article>
+            {% endfor %}
+        </div>
+        <p class="rodape-atualizacao" id="atualizacao" aria-live="off"></p>
+    </main>
+
+    <div id="mensagem" class="aviso" role="status" aria-live="polite" hidden></div>
+
+    <script src="{{ url_for('static', filename='comum.js') }}"></script>
+    <script src="{{ url_for('static', filename='qrcodes.js') }}"></script>
+</body>
+</html>

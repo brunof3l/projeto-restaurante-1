@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta name="token" content="{{ token }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipe - Restaurante BKV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='moderno.css', v=2) }}">
+</head>
+<body data-email="{{ session['email'] }}" data-nome="{{ session['nome'] }}" data-perfil="{{ session['perfil'] }}">
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-sair" viewBox="0 0 24 24"><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <header class="topo">
+        <div class="marca">
+            <img class="selo-img" src="{{ url_for('static', filename='img/logo-bkv.png') }}" alt="Logo do Restaurante BKV">
+            <div>
+                <strong>Restaurante BKV</strong>
+                <small id="data-atual"></small>
+            </div>
+        </div>
+
+        <div class="topo-direita">
+            <a class="botao botao-secundario link-voltar" href="/" id="link-inicio" hidden>Voltar ao sistema</a>
+            <div class="usuario">
+                <span class="avatar" id="avatar" aria-hidden="true"></span>
+                <span class="usuario-nome" id="nome-usuario"></span>
+            </div>
+            <button type="button" class="botao-icone" id="botao-sair" aria-label="Sair do sistema" title="Sair">
+                <svg class="icone" aria-hidden="true"><use href="#i-sair"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="principal">
+        <div class="aviso-conexao" id="aviso-conexao" hidden>Sem conexão com o servidor. Tentando de novo em instantes.</div>
+
+        <h1 class="titulo-tela">Equipe e acessos</h1>
+
+        <section class="bloco" aria-labelledby="titulo-cadastro">
+            <div class="bloco-topo">
+                <div>
+                    <h2 id="titulo-cadastro">Cadastrar funcionário</h2>
+                    <p>O funcionário entra com o e-mail e a senha definidos aqui e pode trocar a senha em "Esqueci minha senha".</p>
+                </div>
+            </div>
+            <form id="form-funcionario" class="form-equipe">
+                <label for="func-nome">Nome</label>
+                <input id="func-nome" class="campo" maxlength="100" required>
+
+                <label for="func-email">E-mail</label>
+                <input id="func-email" class="campo" type="email" maxlength="254" autocomplete="off" required>
+
+                <label for="func-telefone">Celular com DDD (opcional, para recuperar a senha por SMS)</label>
+                <input id="func-telefone" class="campo" inputmode="tel" maxlength="20" placeholder="(67) 99999-8888">
+
+                <label for="func-perfil">Perfil</label>
+                <select id="func-perfil" class="campo" required></select>
+
+                <label for="func-senha">Senha inicial (8 ou mais caracteres, com letras e números)</label>
+                <input id="func-senha" class="campo" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+
+                <button class="botao botao-principal">Cadastrar</button>
+            </form>
+        </section>
+
+        <section class="bloco" aria-labelledby="titulo-lista-equipe">
+            <div class="bloco-topo">
+                <div>
+                    <h2 id="titulo-lista-equipe">Funcionários</h2>
+                    <p>Mudanças de perfil e de acesso valem em até 5 minutos.</p>
+                </div>
+            </div>
+            <div id="lista-equipe" class="lista-equipe"></div>
+        </section>
+
+        <p class="rodape-atualizacao" id="atualizacao" aria-live="off"></p>
+    </main>
+
+    <div id="mensagem" class="aviso" role="status" aria-live="polite" hidden></div>
+
+    <script src="{{ url_for('static', filename='comum.js') }}"></script>
+    <script src="{{ url_for('static', filename='equipe.js') }}"></script>
+</body>
+</html>

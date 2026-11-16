@@ -1,0 +1,841 @@
+/* ==========================================================
+   Restaurante BKV - folha de estilos principal
+   Conceito: comanda de papel sobre um painel verde-garrafa.
+   ========================================================== */
+
+/* ---------- 1. Variáveis de design (cores, fontes, medidas) ---------- */
+:root {
+    --verde-garrafa: #14382f;
+    --verde-medio: #24594b;
+    --papel: #f2f4f0;
+    --branco: #ffffff;
+    --tinta: #17201c;
+    --cinza: #56635c;
+    --linha: #d5dad3;
+    --tomate: #c93a28;
+    --tomate-escuro: #a62e1f;
+    --tomate-fundo: #fbe3de;
+    --mostarda: #e8b53a;
+    --mostarda-fundo: #fbefc9;
+    --mostarda-texto: #6b4b00;
+    --folha: #2a7f52;
+    --folha-fundo: #ddf0e4;
+    --folha-texto: #1b5c39;
+
+    --fonte: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --fonte-comanda: "IBM Plex Mono", "Courier New", monospace;
+
+    --raio-p: 6px;
+    --raio-m: 10px;
+    --raio-g: 16px;
+    --altura-topo: 68px;
+}
+
+/* ---------- 2. Base ---------- */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--fonte);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+h1, h2, h3, p { margin: 0; }
+
+button, select, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+
+:focus-visible {
+    outline: 3px solid var(--mostarda);
+    outline-offset: 2px;
+}
+
+.icone {
+    width: 20px;
+    height: 20px;
+    flex: none;
+}
+
+.pular {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    padding: 10px 14px;
+    background: var(--branco);
+    border-radius: var(--raio-p);
+}
+.pular:focus { top: 12px; }
+
+/* ---------- 3. Barra superior ---------- */
+.topo {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: var(--altura-topo);
+    padding: 0 28px;
+    background: var(--verde-garrafa);
+    color: var(--branco);
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.marca strong { display: block; font-size: 18px; line-height: 1.1; }
+.marca small { display: block; color: #b9cbc4; font-size: 13px; }
+.marca small::first-letter { text-transform: uppercase; }
+
+.selo {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--tomate);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.abas {
+    display: flex;
+    gap: 4px;
+}
+
+.aba {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: var(--raio-m);
+    background: transparent;
+    color: #c9d8d2;
+    font-weight: 500;
+}
+.aba:hover { background: var(--verde-medio); color: var(--branco); }
+.aba.ativa { background: var(--branco); color: var(--verde-garrafa); font-weight: 700; }
+
+.contador {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--mostarda);
+    color: var(--tinta);
+    font-size: 12px;
+    font-weight: 700;
+}
+.contador.alerta { background: var(--tomate); color: var(--branco); }
+
+.topo-direita {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.status-caixa {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #c9d8d2;
+}
+.status-caixa i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #7a8a84;
+}
+.status-caixa.aberto i { background: #5fd08f; }
+
+.usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.usuario-nome { font-size: 14px; font-weight: 500; }
+
+/* Logo redondo do restaurante (substitui o selo com letras) */
+.selo-img {
+    display: block;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--mostarda);
+    color: var(--tinta);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.botao-icone {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #3c6a5d;
+    border-radius: var(--raio-m);
+    background: transparent;
+    color: var(--branco);
+}
+.botao-icone:hover { background: var(--verde-medio); }
+
+/* ---------- 4. Estrutura das telas ---------- */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px;
+}
+
+.tela { display: none; }
+.tela.ativa { display: block; }
+
+.titulo-tela {
+    margin-bottom: 20px;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.aviso-conexao {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: var(--raio-m);
+    background: var(--tomate-fundo);
+    color: var(--tomate-escuro);
+    font-weight: 500;
+}
+
+.bloco {
+    padding: 22px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-g);
+    background: var(--branco);
+}
+.bloco + .bloco { margin-top: 20px; }
+
+.bloco-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-bottom: 18px;
+}
+.bloco h2 { font-size: 20px; line-height: 1.2; }
+.bloco-topo p,
+.bloco > p { margin-top: 4px; color: var(--cinza); font-size: 15px; }
+
+.legenda {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--cinza);
+    font-size: 14px;
+}
+.legenda li { display: flex; align-items: center; gap: 6px; }
+.legenda i { width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--folha); }
+.legenda i.ocupada { border-color: var(--mostarda); background: var(--mostarda); }
+
+/* ---------- 5. Botões e campos ---------- */
+.botao {
+    min-height: 46px;
+    padding: 0 20px;
+    border: 1px solid transparent;
+    border-radius: var(--raio-m);
+    font-weight: 700;
+}
+.botao-principal { background: var(--tomate); color: var(--branco); }
+.botao-principal:hover { background: var(--tomate-escuro); }
+.botao-perigo { background: var(--tomate); color: var(--branco); }
+.botao-perigo:hover { background: var(--tomate-escuro); }
+.botao-secundario { background: var(--branco); border-color: var(--verde-garrafa); color: var(--verde-garrafa); }
+.botao-secundario:hover { background: var(--papel); }
+.botao-texto { background: transparent; color: var(--cinza); }
+.botao-texto:hover { color: var(--tinta); text-decoration: underline; }
+.botao:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.campo {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 12px;
+    border: 1px solid #aab4ad;
+    border-radius: var(--raio-m);
+    background: var(--branco);
+}
+textarea.campo { padding: 10px 12px; resize: vertical; }
+.campo-pequeno { width: auto; min-height: 40px; }
+
+label { display: block; margin: 14px 0 6px; font-size: 14px; font-weight: 500; }
+
+.busca {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0 12px;
+    min-height: 44px;
+    border: 1px solid #aab4ad;
+    border-radius: 22px;
+    background: var(--branco);
+    color: var(--cinza);
+}
+.busca input { border: 0; outline: 0; background: transparent; width: 180px; }
+.busca:focus-within { outline: 3px solid var(--mostarda); outline-offset: 2px; }
+
+/* ---------- 6. Tela do garçom ---------- */
+.garcom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 370px;
+    gap: 24px;
+    align-items: start;
+}
+
+.lista-mesas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.mesa {
+    display: grid;
+    gap: 2px;
+    padding: 14px 16px;
+    border: 2px solid var(--folha);
+    border-radius: var(--raio-m);
+    background: var(--branco);
+    text-align: left;
+}
+.mesa:hover { background: var(--folha-fundo); }
+.mesa-numero { font-size: 30px; font-weight: 700; line-height: 1; }
+.mesa-estado { color: var(--folha-texto); font-size: 14px; font-weight: 500; }
+.mesa-total { color: var(--cinza); font-size: 13px; font-family: var(--fonte-comanda); }
+.mesa.ocupada { border-color: var(--mostarda); background: var(--mostarda-fundo); }
+.mesa.ocupada .mesa-estado { color: var(--mostarda-texto); }
+.mesa.conta { border-color: var(--tomate); background: var(--tomate-fundo); }
+.mesa.conta .mesa-estado { color: var(--tomate-escuro); }
+.mesa.selecionada {
+    box-shadow: 0 0 0 3px var(--branco), 0 0 0 6px var(--verde-garrafa);
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.filtro {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid #aab4ad;
+    border-radius: 20px;
+    background: var(--branco);
+    font-weight: 500;
+}
+.filtro:hover { border-color: var(--verde-garrafa); }
+.filtro.ativo { background: var(--verde-garrafa); border-color: var(--verde-garrafa); color: var(--branco); }
+
+.lista-cardapio {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+}
+
+.produto {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 112px;
+    padding: 14px 16px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-m);
+    background: var(--branco);
+    text-align: left;
+}
+.produto:hover:not(:disabled) { border-color: var(--verde-garrafa); background: var(--papel); }
+.produto:disabled { background: var(--papel); color: var(--cinza); cursor: not-allowed; }
+.produto-nome { font-size: 18px; font-weight: 700; line-height: 1.2; }
+.produto-categoria { color: var(--cinza); font-size: 13px; }
+.produto-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+}
+.preco { font-family: var(--fonte-comanda); font-weight: 500; }
+.etiqueta-estoque {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--mostarda-fundo);
+    color: var(--mostarda-texto);
+    font-size: 12px;
+    font-weight: 500;
+}
+.etiqueta-estoque.esgotado { background: var(--tomate-fundo); color: var(--tomate-escuro); }
+
+.sem-registro {
+    padding: 28px 12px;
+    color: var(--cinza);
+    text-align: center;
+}
+
+/* ---------- 7. A comanda (elemento principal do design) ---------- */
+.comanda {
+    position: sticky;
+    top: calc(var(--altura-topo) + 20px);
+    filter: drop-shadow(0 6px 14px rgba(20, 56, 47, 0.18));
+}
+
+.comanda-corpo {
+    --serra: 10px;
+    padding: 22px 22px calc(22px + var(--serra));
+    background: #fffffd;
+    font-family: var(--fonte-comanda);
+    border-radius: var(--raio-p) var(--raio-p) 0 0;
+    /* borda inferior serrilhada, como papel arrancado do bloco */
+    -webkit-mask:
+        conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% 100% / calc(var(--serra) * 2) 100% repeat-x,
+        linear-gradient(#000 0 0) top / 100% calc(100% - var(--serra)) no-repeat;
+    mask:
+        conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% 100% / calc(var(--serra) * 2) 100% repeat-x,
+        linear-gradient(#000 0 0) top / 100% calc(100% - var(--serra)) no-repeat;
+}
+
+.comanda-topo {
+    padding-bottom: 14px;
+    border-bottom: 2px dashed var(--linha);
+}
+.comanda-topo h2 { font-family: var(--fonte); font-size: 22px; }
+.comanda-mesa { margin-top: 2px; font-size: 15px; font-weight: 500; }
+.comanda-mesa.vazia { color: var(--tomate-escuro); }
+
+.itens-enviados {
+    padding: 12px 0;
+    border-bottom: 2px dashed var(--linha);
+    color: var(--cinza);
+    font-size: 13px;
+}
+.itens-enviados strong { display: block; margin-bottom: 4px; color: var(--tinta); font-weight: 500; }
+.linha-enviada { display: flex; justify-content: space-between; gap: 8px; }
+
+.itens-pedido { min-height: 120px; padding: 8px 0; }
+
+.vazio {
+    padding: 28px 8px;
+    color: var(--cinza);
+    font-size: 14px;
+    text-align: center;
+}
+
+.item-pedido {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--linha);
+}
+.item-pedido strong { font-family: var(--fonte); font-weight: 700; font-size: 15px; }
+.item-pedido small { color: var(--cinza); font-size: 13px; }
+
+.controle-quantidade {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    grid-row: span 2;
+}
+.controle-quantidade button {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #aab4ad;
+    border-radius: 50%;
+    background: var(--branco);
+}
+.controle-quantidade button:hover { background: var(--papel); border-color: var(--verde-garrafa); }
+.controle-quantidade .icone { width: 16px; height: 16px; }
+.controle-quantidade span { min-width: 24px; text-align: center; font-weight: 500; }
+
+.comanda-total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-top: 2px dashed var(--linha);
+}
+.comanda-total strong { font-size: 26px; font-weight: 500; }
+
+.comanda-acoes {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    font-family: var(--fonte);
+}
+
+.resumo-fixo { display: none; }
+
+/* ---------- 8. Quadro de pedidos ---------- */
+.quadro {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.coluna {
+    padding: 16px;
+    border-radius: var(--raio-g);
+    background: #e6eae4;
+}
+.coluna-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.coluna-topo h2 { font-size: 18px; }
+.coluna-topo span {
+    min-width: 28px;
+    padding: 2px 8px;
+    border-radius: 14px;
+    background: var(--branco);
+    font-weight: 700;
+    text-align: center;
+}
+.coluna-lista { display: grid; gap: 12px; }
+.coluna.preparo { border-top: 5px solid var(--mostarda); }
+.coluna.pronto { border-top: 5px solid var(--folha); }
+.coluna.entregue { border-top: 5px solid var(--verde-garrafa); }
+
+.cartao {
+    padding: 16px;
+    border-radius: var(--raio-m);
+    background: var(--branco);
+    border: 1px solid var(--linha);
+}
+.cartao-topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.cartao-topo h3 { font-size: 20px; }
+.cartao-numero { color: var(--cinza); font-size: 14px; font-family: var(--fonte-comanda); }
+.cartao ul { margin: 10px 0; padding: 0; list-style: none; }
+.cartao li { display: flex; gap: 8px; padding: 3px 0; }
+.cartao li b { min-width: 28px; font-family: var(--fonte-comanda); font-weight: 500; }
+.cartao-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--linha);
+}
+.cartao-acoes { display: grid; gap: 8px; margin-top: 12px; }
+.cartao-acoes .botao { min-height: 44px; }
+.cartao-nota { margin-top: 10px; color: var(--cinza); font-size: 14px; }
+
+/* ---------- 9. Indicadores ---------- */
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.indicador {
+    padding: 20px 22px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-g);
+    background: var(--branco);
+}
+.indicador small { display: block; color: var(--cinza); font-size: 15px; }
+.indicador strong { display: block; margin-top: 4px; font-size: 34px; line-height: 1.1; letter-spacing: -0.01em; }
+.indicador.destaque { background: var(--verde-garrafa); border-color: var(--verde-garrafa); color: var(--branco); }
+.indicador.destaque small { color: #b9cbc4; }
+.indicador.alerta { border-color: var(--tomate); background: var(--tomate-fundo); }
+.indicador.alerta strong { color: var(--tomate-escuro); }
+
+/* ---------- 10. Caixa ---------- */
+.lista-contas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+.conta { padding: 18px; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--branco); }
+.conta-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.conta-topo h3 { font-size: 22px; }
+.conta ul { margin: 12px 0; padding: 0; list-style: none; }
+.conta li { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px dotted var(--linha); }
+.conta-total { display: flex; justify-content: space-between; align-items: baseline; margin: 12px 0; }
+.conta-total strong { font-family: var(--fonte-comanda); font-size: 26px; font-weight: 500; }
+
+.pagamento { margin: 0; padding: 0; border: 0; }
+.pagamento legend { margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+.pagamento-opcoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.pagamento-opcoes label { margin: 0; }
+.pagamento-opcoes input { position: absolute; opacity: 0; pointer-events: none; }
+.pagamento-opcoes span {
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    border: 1px solid #aab4ad;
+    border-radius: var(--raio-m);
+    font-weight: 500;
+    cursor: pointer;
+}
+.pagamento-opcoes span:hover { border-color: var(--verde-garrafa); }
+.pagamento-opcoes input:checked + span { background: var(--verde-garrafa); border-color: var(--verde-garrafa); color: var(--branco); }
+.pagamento-opcoes input:focus-visible + span { outline: 3px solid var(--mostarda); outline-offset: 2px; }
+.conta .botao { width: 100%; margin-top: 12px; }
+
+/* etiquetas de status do pedido */
+.etiqueta {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    background: #e1e8e4;
+    color: var(--verde-garrafa);
+}
+.etiqueta.preparo { background: var(--mostarda-fundo); color: var(--mostarda-texto); }
+.etiqueta.pronto { background: var(--folha-fundo); color: var(--folha-texto); }
+
+/* ---------- 11. Gerente ---------- */
+.gerente-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 20px;
+}
+.gerente-lateral { display: grid; gap: 20px; }
+.gerente-lateral .bloco + .bloco { margin-top: 0; }
+.gerente-grid .bloco + .bloco { margin-top: 0; }
+.reposicao .botao { width: 100%; margin-top: 16px; }
+.atalhos { display: flex; gap: 8px; margin-top: 10px; }
+.atalho {
+    flex: 1;
+    min-height: 40px;
+    border: 1px solid #aab4ad;
+    border-radius: var(--raio-m);
+    background: var(--branco);
+    font-weight: 500;
+}
+.atalho:hover { border-color: var(--verde-garrafa); background: var(--papel); }
+
+.tabela-responsiva { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 10px; border-bottom: 1px solid var(--linha); text-align: left; }
+th { color: var(--cinza); font-size: 14px; font-weight: 500; }
+.barra-estoque { display: flex; align-items: center; gap: 10px; min-width: 150px; }
+.barra-estoque > i {
+    display: block;
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: #e1e8e4;
+    overflow: hidden;
+}
+.barra-estoque > i > b { display: block; height: 100%; border-radius: 4px; background: var(--folha); }
+.barra-estoque.baixo > i > b { background: var(--tomate); }
+.barra-estoque span { min-width: 56px; font-family: var(--fonte-comanda); font-size: 14px; }
+
+.situacao {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: var(--folha-fundo);
+    color: var(--folha-texto);
+    font-size: 13px;
+    font-weight: 700;
+}
+.situacao.baixo { background: var(--tomate-fundo); color: var(--tomate-escuro); }
+
+.lista-formas { display: grid; gap: 14px; margin-top: 16px; }
+.forma-linha { display: grid; gap: 6px; }
+.forma-topo { display: flex; justify-content: space-between; font-size: 15px; }
+.forma-topo span:last-child { font-family: var(--fonte-comanda); }
+.forma-barra { height: 8px; border-radius: 4px; background: #e1e8e4; overflow: hidden; }
+.forma-barra b { display: block; height: 100%; background: var(--verde-garrafa); border-radius: 4px; }
+
+.lista-vendas { display: grid; gap: 0; }
+.venda {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--linha);
+}
+.venda:last-child { border-bottom: 0; }
+.venda small { display: block; color: var(--cinza); }
+.venda > strong { font-family: var(--fonte-comanda); font-weight: 500; }
+
+.rodape-atualizacao { margin-top: 24px; color: var(--cinza); font-size: 13px; text-align: center; }
+
+/* ---------- Telas do caixa, da cozinha e links do gerente ---------- */
+.quadro-duas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.conta-resumo { display: flex; justify-content: space-between; align-items: baseline; margin: 4px 0; color: var(--cinza); }
+.conta-resumo.falta { color: var(--tomate-escuro); font-weight: 700; }
+.rotulo-valor { display: block; margin: 14px 0 6px; font-size: 14px; font-weight: 500; }
+.link-cliente { display: block; margin-top: 12px; color: var(--verde-medio); font-size: 14px; text-align: center; }
+.itens-cozinha li { font-size: 18px; }
+.links-telas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.links-telas .botao { display: inline-flex; align-items: center; text-decoration: none; }
+.link-voltar { display: inline-flex; align-items: center; text-decoration: none; min-height: 40px; }
+
+/* ---------- 12. Aviso (toast) e diálogo ---------- */
+.aviso {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 60;
+    max-width: min(92vw, 460px);
+    padding: 14px 20px;
+    transform: translateX(-50%);
+    border-radius: var(--raio-m);
+    background: var(--verde-garrafa);
+    color: var(--branco);
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    animation: aviso-entrada 0.2s ease-out;
+}
+.aviso.erro { background: var(--tomate-escuro); }
+@keyframes aviso-entrada {
+    from { opacity: 0; transform: translate(-50%, 10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+dialog {
+    width: min(92vw, 440px);
+    padding: 24px;
+    border: 0;
+    border-radius: var(--raio-g);
+    background: var(--branco);
+    color: var(--tinta);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+dialog::backdrop { background: rgba(20, 56, 47, 0.55); }
+dialog h2 { font-size: 22px; }
+dialog p { margin-top: 4px; color: var(--cinza); }
+.modal-linha { display: flex; justify-content: space-between; margin-top: 6px; color: var(--cinza); }
+.modal-linha .invalido { color: var(--tomate-escuro); font-weight: 500; }
+.modal-acoes { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+/* ---------- 13. Tablet ---------- */
+@media (max-width: 1100px) {
+    .garcom { grid-template-columns: 1fr; }
+    .comanda { position: static; max-width: 520px; }
+    .quadro { grid-template-columns: 1fr; }
+    .gerente-grid { grid-template-columns: 1fr; }
+    .usuario-nome, .status-caixa span:last-child { display: none; }
+}
+
+/* ---------- 14. Celular: abas viram barra inferior ---------- */
+@media (max-width: 720px) {
+    .quadro-duas { grid-template-columns: 1fr; }
+    :root { --altura-topo: 60px; }
+
+    .topo { padding: 0 16px; }
+    .marca small { display: none; }
+
+    .abas {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 30;
+        justify-content: space-around;
+        gap: 0;
+        padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+        background: var(--verde-garrafa);
+        border-top: 1px solid #2c5649;
+    }
+    .aba {
+        flex: 1;
+        flex-direction: column;
+        gap: 2px;
+        min-height: 52px;
+        padding: 0 4px;
+        font-size: 12px;
+    }
+    .contador { position: absolute; top: 2px; right: 18%; }
+
+    main { padding: 18px 16px 110px; }
+    .titulo-tela { font-size: 26px; }
+    .indicadores { grid-template-columns: 1fr; }
+    .indicador strong { font-size: 28px; }
+    .bloco { padding: 16px; }
+    .busca { width: 100%; }
+    .busca input { width: 100%; }
+    .lista-mesas { grid-template-columns: repeat(2, 1fr); }
+    .lista-contas { grid-template-columns: 1fr; }
+    .comanda { max-width: none; }
+
+    .resumo-fixo {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        z-index: 25;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        min-height: 52px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: var(--raio-m);
+        background: var(--tomate);
+        color: var(--branco);
+        font-weight: 500;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    .resumo-fixo[hidden] { display: none; }
+    .aviso { bottom: 150px; }
+}
+
+/* ---------- 15. Acessibilidade: respeitar quem reduz movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Equipe e QR Codes das mesas ---------- */
+.form-equipe { display: grid; gap: 6px; max-width: 520px; }
+.form-equipe label { margin-top: 8px; font-size: 14px; font-weight: 500; }
+.lista-equipe { display: grid; gap: 12px; }
+.acoes-equipe { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
+.acoes-equipe .campo { width: auto; min-width: 160px; }
+.apoio-qr { margin: 0 0 14px; color: var(--cinza); }
+.grade-qr { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 18px; }
+.cartao-qr { padding: 18px; text-align: center; background: var(--branco); border: 1px solid var(--linha); border-radius: var(--raio-g); break-inside: avoid; }
+.cartao-qr h2 { margin: 0 0 8px; }
+.imagem-qr svg { width: 100%; max-width: 220px; height: auto; }
+.cartao-qr small { display: block; word-break: break-all; color: var(--cinza); font-size: 10px; }
+@media print {
+    .topo, .aviso-conexao, .apoio-qr, #botao-imprimir, .rodape-atualizacao, .titulo-tela { display: none !important; }
+    body { background: #fff; }
+    .grade-qr { grid-template-columns: repeat(2, 1fr); }
+}

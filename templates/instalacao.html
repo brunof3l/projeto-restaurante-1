@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração inicial - Restaurante BKV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/moderno-login.css?v=2">
+</head>
+<body>
+    <div class="pagina">
+
+        <!-- Painel de marca: padrão de azulejo feito só com CSS -->
+        <aside class="marca" aria-hidden="false">
+            <div class="azulejo" aria-hidden="true"></div>
+            <img class="marca-assinatura" src="{{ url_for('static', filename='img/bkv-dourado.png') }}" alt="BKV">
+            <div class="marca-texto">
+                <div class="marca-titulo">
+                    <img class="selo-img" src="{{ url_for('static', filename='img/logo-bkv.png') }}" alt="Logo do Restaurante BKV">
+                    <h1>Restaurante BKV</h1>
+                </div>
+                <p>Mesas, pedidos, caixa e estoque em um só lugar.</p>
+            </div>
+        </aside>
+
+        <main class="acesso">
+            <p id="mensagem" role="status" aria-live="polite"></p>
+
+            <section id="instalacao" aria-labelledby="titulo-instalacao">
+                <h2 id="titulo-instalacao" tabindex="-1">Configuração inicial</h2>
+                <p class="apoio">Crie o primeiro usuário do sistema: o administrador. Depois ele e os gerentes cadastram os outros funcionários dentro do sistema.</p>
+                <form id="form-instalacao">
+                    <label for="codigo-instalacao">Código de instalação</label>
+                    <input id="codigo-instalacao" type="password" maxlength="128" autocomplete="off" required>
+
+                    <label for="nome-admin">Nome</label>
+                    <input id="nome-admin" maxlength="100" autocomplete="name" required>
+
+                    <label for="email-admin">E-mail</label>
+                    <input id="email-admin" type="email" maxlength="254" autocomplete="username" required>
+
+                    <label for="senha-admin">Senha</label>
+                    <div class="campo-senha">
+                        <input id="senha-admin" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+                        <button type="button" class="ver-senha" data-alvo="senha-admin" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+                    </div>
+
+                    <label for="confirmacao-admin">Confirme a senha</label>
+                    <input id="confirmacao-admin" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+
+                    <p class="apoio">A senha precisa de 8 ou mais caracteres, com letras e números.</p>
+                    <button class="botao" id="botao-instalar">Criar administrador</button>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="/static/instalacao.js"></script>
+</body>
+</html>

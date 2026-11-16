@@ -1,0 +1,297 @@
+/* ==========================================================
+   Restaurante BKV - camada visual moderna do sistema
+   Carrega depois do style.css e só acrescenta/sobrepõe estilos.
+   Para voltar ao visual anterior, remova a linha deste arquivo no index.html.
+
+   Ideias: o azulejo da marca vira uma faixa dourada na barra do topo,
+   cada prato ganha um ícone e uma cor de categoria, e a comanda de papel
+   "imprime" cada item novo (efeitos.js). O resto fica quieto.
+   ========================================================== */
+
+:root {
+    --ouro: #c9a24a;
+    --ouro-claro: #e8cd85;
+    --petroleo: #2f7f93;
+    --sombra-verde: 20, 56, 47;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(900px 420px at 88% -8%, rgba(42, 127, 82, 0.10), transparent 65%),
+        #eef2ee;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Barra superior ---------- */
+.topo {
+    background: linear-gradient(180deg, #18443b 0%, #12332b 100%);
+    box-shadow: 0 14px 28px -20px rgba(8, 26, 21, 0.9);
+}
+
+/* Faixa de azulejo dourado na borda de baixo */
+.topo::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 6px;
+    background: conic-gradient(from 45deg at 50% 50%, var(--ouro) 0 25%, transparent 0 50%, var(--ouro) 0 75%, transparent 0) 0 0 / 12px 12px;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.selo-img { box-shadow: 0 0 0 2px rgba(232, 205, 133, 0.5); }
+
+.aba { transition: background 0.18s, color 0.18s, transform 0.18s; }
+.aba:hover { transform: translateY(-1px); }
+.aba.ativa { box-shadow: 0 8px 18px -10px rgba(0, 0, 0, 0.6); }
+.aba.ativa::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -9px;
+    width: 20px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--ouro);
+    transform: translateX(-50%);
+}
+
+.status-caixa.aberto i { box-shadow: 0 0 0 4px rgba(95, 208, 143, 0.22); }
+.botao-icone { transition: background 0.18s, transform 0.18s; }
+.botao-icone:hover { transform: translateY(-1px); }
+
+/* ---------- Telas e blocos ---------- */
+.tela.ativa { animation: entrar-tela 0.22s ease-out; }
+@keyframes entrar-tela {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+.titulo-tela { font-weight: 700; letter-spacing: -0.025em; font-size: 34px; }
+
+.bloco {
+    border-color: rgba(var(--sombra-verde), 0.09);
+    border-radius: 18px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 22px 40px -32px rgba(var(--sombra-verde), 0.5);
+}
+
+.bloco h2 { font-weight: 700; letter-spacing: -0.015em; }
+
+/* ---------- Botões ---------- */
+.botao { transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s; }
+.botao-principal,
+.botao-perigo {
+    background: linear-gradient(180deg, #d9432f 0%, #b8321f 100%);
+    box-shadow: 0 10px 20px -12px rgba(201, 58, 40, 0.9);
+}
+.botao-principal:hover:not(:disabled),
+.botao-perigo:hover:not(:disabled) {
+    background: linear-gradient(180deg, #d9432f 0%, #b8321f 100%);
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+}
+.botao:active:not(:disabled) { transform: translateY(1px); filter: none; }
+
+.campo { border-radius: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
+.campo:focus-visible {
+    outline: none;
+    border-color: var(--folha);
+    box-shadow: 0 0 0 4px rgba(42, 127, 82, 0.18);
+}
+.busca { transition: box-shadow 0.15s, border-color 0.15s; }
+.busca:focus-within { outline: none; border-color: var(--folha); box-shadow: 0 0 0 4px rgba(42, 127, 82, 0.18); }
+
+/* ---------- Mesas ---------- */
+.mesa {
+    border-radius: 14px;
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.mesa:hover { transform: translateY(-2px); box-shadow: 0 14px 24px -16px rgba(var(--sombra-verde), 0.7); }
+.mesa.selecionada { transform: translateY(-2px); }
+
+/* Só a mesa que espera para pagar chama atenção */
+.mesa.conta .mesa-estado::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: var(--tomate);
+    animation: chamar 1.6s ease-out infinite;
+}
+@keyframes chamar {
+    0% { box-shadow: 0 0 0 0 rgba(201, 58, 40, 0.55); }
+    100% { box-shadow: 0 0 0 10px rgba(201, 58, 40, 0); }
+}
+
+/* ---------- Cardápio ---------- */
+.filtro { transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.15s; }
+.filtro:hover { transform: translateY(-1px); }
+.filtro.ativo { box-shadow: 0 8px 16px -10px rgba(var(--sombra-verde), 0.9); }
+
+.lista-cardapio { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+
+.produto {
+    --cat: var(--verde-medio);
+    position: relative;
+    min-height: 124px;
+    padding: 16px 16px 14px 18px;
+    border-color: rgba(var(--sombra-verde), 0.10);
+    border-left: 4px solid var(--cat);
+    border-radius: 14px;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s, background 0.18s;
+}
+.produto[data-cat="Entradas"] { --cat: var(--folha); }
+.produto[data-cat="Pratos principais"] { --cat: var(--tomate); }
+.produto[data-cat="Bebidas"] { --cat: var(--petroleo); }
+.produto[data-cat="Sobremesas"] { --cat: var(--ouro); }
+
+.produto:hover:not(:disabled) {
+    transform: translateY(-3px);
+    border-color: var(--cat);
+    background: var(--branco);
+    box-shadow: 0 18px 28px -18px rgba(var(--sombra-verde), 0.65);
+}
+.produto:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+.produto.adicionado { animation: adicionar 0.3s ease-out; }
+@keyframes adicionar {
+    0% { transform: scale(0.96); }
+    55% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+.produto:disabled { opacity: 0.6; }
+.produto:disabled .produto-icone { filter: grayscale(1); }
+
+.produto-categoria,
+.produto-nome { padding-right: 46px; }
+.produto-nome { font-weight: 700; letter-spacing: -0.01em; }
+
+.produto-icone {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--cat) 15%, #ffffff);
+    font-size: 21px;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+.produto:hover:not(:disabled) .produto-icone { transform: rotate(-6deg) scale(1.08); }
+
+.preco {
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--verde-garrafa);
+}
+
+/* "+1" que sobe do prato tocado */
+.voa-mais {
+    position: fixed;
+    z-index: 70;
+    pointer-events: none;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--folha);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.9);
+    animation: voar 0.7s ease-out forwards;
+}
+@keyframes voar {
+    from { opacity: 1; transform: translate(-50%, -50%); }
+    to { opacity: 0; transform: translate(-50%, -64px); }
+}
+
+/* ---------- Comanda: cada item novo "imprime" ---------- */
+.comanda { filter: drop-shadow(0 18px 24px rgba(var(--sombra-verde), 0.22)); }
+.comanda-topo h2 { font-weight: 700; letter-spacing: -0.02em; }
+
+.item-pedido.novo { animation: imprimir 0.38s steps(8, end); }
+@keyframes imprimir {
+    from { clip-path: inset(0 0 100% 0); transform: translateY(-6px); background: #fff8d9; }
+    to { clip-path: inset(0 0 0 0); transform: none; background: transparent; }
+}
+.comanda-total strong.subiu { animation: batida 0.4s ease-out; }
+@keyframes batida {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.12); color: var(--tomate-escuro); }
+    100% { transform: scale(1); }
+}
+
+.controle-quantidade button { transition: background 0.15s, border-color 0.15s, transform 0.12s; }
+.controle-quantidade button:active { transform: scale(0.9); }
+
+/* ---------- Pedidos ---------- */
+.coluna { border-radius: 18px; background: #e3e9e4; }
+.cartao {
+    border-radius: 14px;
+    transition: transform 0.18s, box-shadow 0.18s;
+}
+.cartao:hover { transform: translateY(-2px); box-shadow: 0 16px 26px -20px rgba(var(--sombra-verde), 0.7); }
+
+/* ---------- Indicadores ---------- */
+.indicador {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(var(--sombra-verde), 0.09);
+    border-radius: 18px;
+    box-shadow: 0 22px 40px -34px rgba(var(--sombra-verde), 0.55);
+}
+.indicador > * { position: relative; }
+.indicador strong { font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.indicador.destaque {
+    background: linear-gradient(150deg, #1d4d43 0%, var(--verde-garrafa) 70%);
+}
+/* Azulejo dourado no canto do destaque */
+.indicador.destaque::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(from 45deg at 50% 50%, rgba(232, 205, 133, 0.38) 0 25%, transparent 0 50%, rgba(232, 205, 133, 0.38) 0 75%, transparent 0) 0 0 / 36px 36px;
+    -webkit-mask-image: linear-gradient(100deg, transparent 45%, #000 100%);
+    mask-image: linear-gradient(100deg, transparent 45%, #000 100%);
+    pointer-events: none;
+}
+
+.conta { border-radius: 14px; }
+.pagamento-opcoes span { border-radius: 12px; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+
+tbody tr { transition: background 0.15s; }
+tbody tr:hover { background: #f1f6f2; }
+
+/* ---------- Aviso e diálogo ---------- */
+.aviso {
+    border-radius: 14px;
+    box-shadow: 0 18px 36px -12px rgba(0, 0, 0, 0.45);
+}
+dialog { border-radius: 20px; }
+dialog[open] { animation: abrir-dialogo 0.2s ease-out; }
+@keyframes abrir-dialogo {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+}
+dialog::backdrop {
+    background: rgba(12, 42, 35, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 720px) {
+    .titulo-tela { font-size: 28px; }
+    .aba.ativa::after { bottom: auto; top: -7px; }
+    .abas { box-shadow: 0 -14px 24px -18px rgba(0, 0, 0, 0.7); }
+    .lista-cardapio { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
