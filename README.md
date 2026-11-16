@@ -512,28 +512,6 @@ UPDATE usuarios SET ativo = FALSE WHERE email = 'funcionario@exemplo.com';
 
 A sessão aberta dessa pessoa deixa de valer em até 5 minutos.
 
-## Configuração do Neon e do Firebase
-
-O passo a passo completo, com os caminhos de cada tela, está em **[GUIA_CONFIGURACAO.md](GUIA_CONFIGURACAO.md)**.
-
-| Configuração | Onde obter | Significado |
-| --- | --- | --- |
-| `CHAVE_SECRETA` | Gerada com `secrets.token_hex(32)` | Chave de assinatura das sessões do Flask |
-| `DATABASE_URL` | Neon: botão **Connect** | Endereço de conexão com o banco |
-| `FIREBASE_API_KEY` | Firebase: Configurações do projeto > Geral | Chave de API da Web, usada no login e no pedido de recuperação |
-| `FIREBASE_CREDENCIAIS` | Firebase: Configurações do projeto > Contas de serviço | Caminho do arquivo JSON da conta de serviço |
-| `FIREBASE_CREDENCIAIS_JSON` | O mesmo arquivo JSON | Alternativa para hospedagens sem arquivos: o conteúdo em uma linha |
-
-O envio de e-mails é feito pelo próprio Firebase, sem servidor SMTP. O modelo da mensagem (idioma, remetente e assunto) é ajustado em **Authentication > Modelos**.
-
-Os arquivos `.env` e `firebase-credenciais.json` não devem ser publicados no repositório.
-
-Para conferir tudo de uma vez:
-
-```bash
-python verificar_configuracao.py
-```
-
 ## Recuperação de senha
 
 ### Como utilizar
@@ -598,10 +576,6 @@ O passo a passo de configuração está em **[GUIA_SMS.md](GUIA_SMS.md)**. Aqui,
 | Valor de `SMS_PROVEDOR` | Serviço |
 | --- | --- |
 | `twilio` | Twilio |
-| `zenvia` | Zenvia (empresa brasileira) |
-| `vonage` | Vonage |
-
-Cada provedor usa as próprias variáveis, listadas no `.env.example`.
 
 ### Registrar o celular dos funcionários
 
@@ -1303,9 +1277,3 @@ python -m pip install -r requirements.txt
 - As fontes da interface vêm do Google Fonts e exigem internet; sem ela, são usadas fontes do sistema.
 - A atualização automática faz uma requisição a cada 15 segundos por tela aberta, o que pesa mais com `threaded=False`.
 - Histórico de estoque e reserva de mesas não têm tela, pois não existem rotas na API.
-
-A estrutura foi mantida simples para acompanhar a organização acadêmica do repositório. A publicação para uso real exige preparar a hospedagem, HTTPS e armazenamento apropriado.
-
-## Documentação complementar
-
-O arquivo `DOCUMENTACAO.pdf` contém a documentação da versão original do projeto. As funcionalidades acrescentadas estão descritas neste README.
