@@ -904,9 +904,9 @@ def mudar_status(numero):
     dados = ler_dados()
     novo_status = dados.get("status")
     perfil = session.get("perfil")
-    if novo_status == "Pronto" and perfil not in ["gerente", "cozinha"]:
+    if novo_status == "Pronto" and perfil not in GERENCIA + ["cozinha"]:
         return jsonify({"erro": "Só a cozinha marca o pedido como pronto."}), 403
-    if novo_status == "Entregue" and perfil not in ["gerente", "garcom"]:
+    if novo_status == "Entregue" and perfil not in GERENCIA + ["garcom"]:
         return jsonify({"erro": "Só o garçom marca o pedido como entregue."}), 403
     if pedido.status == "Em preparo" and novo_status == "Pronto":
         pedido.atualizar_status("Pronto")
