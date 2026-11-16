@@ -7,6 +7,7 @@ Projeto acadêmico em Python para organizar o atendimento de um restaurante: con
 - Bruno Ferreira
 - Kennedy Fernando
 - Vinicius dos Anjos
+- Sthevan Vinicius
 
 ## Sumário
 
